@@ -7,7 +7,7 @@ if(isset($_GET['Del']))
     $result = mysqli_query($con,$query);
     if($result)
     {
-        header("location:admintest.php");
+        header("location:admintest2.php");
     }
     else
     {
@@ -16,6 +16,6 @@ if(isset($_GET['Del']))
 }
 else
 {
-    header("location:admintest.php");
+    header("location:admintest2.php");
 }
 ?>

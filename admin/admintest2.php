@@ -1,102 +1,54 @@
-
 <?php
-  
-// Username is root
-$user = 'root';
-$password = ''; 
-  
-// Database name is gfg
-$database = 'client'; 
-  
-// Server is localhost with
-// port number 3308
-$servername='localhost:3306';
-$mysqli = new mysqli($servername, $user, 
-                $password, $database);
-  
-// Checking for connections
-if ($mysqli->connect_error) {
-    die('Connect Error (' . 
-    $mysqli->connect_errno . ') '. 
-    $mysqli->connect_error);
-}
-  
-// SQL query to select data from database
-$sql = "SELECT * FROM userinfo ORDER BY id DESC ";
-$result = $mysqli->query($sql);
-$mysqli->close(); 
-?>
 
+include("connect.php");
+?>
 <!DOCTYPE html>
-<html lang="en">
-  
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>GFG User Details</title>
-    <!-- CSS FOR STYLING THE PAGE -->
-    <style>
-        table {
-            margin: 0 auto;
-            font-size: large;
-            border: 1px solid black;
-        }
-  
-        h1 {
-            text-align: center;
-            color: #006600;
-            font-size: xx-large;
-            font-family: 'Gill Sans', 'Gill Sans MT', 
-            ' Calibri', 'Trebuchet MS', 'sans-serif';
-        }
-  
-        td {
-            background-color: #E4F5D4;
-            border: 1px solid black;
-        }
-  
-        th,
-        td {
-            font-weight: bold;
-            border: 1px solid black;
-            padding: 10px;
-            text-align: center;
-        }
-  
-        td {
-            font-weight: lighter;
-        }
-    </style>
+<meta charset="utf-8">
+<title>View Records</title>
+<link rel="stylesheet" href="css/style.css" />
 </head>
-  
 <body>
-    <section>
-        <h1>GeeksForGeeks</h1>
-        <!-- TABLE CONSTRUCTION-->
-        <table>
-            <tr>
-                <th>GFG UserHandle</th>
-                <th>Practice Problems</th>
-                <th>Coding Score</th>
-                <th>GFG Articles</th>
-            </tr>
-            <!-- PHP CODE TO FETCH DATA FROM ROWS-->
-            <?php   // LOOP TILL END OF DATA 
-                while($rows=$result->fetch_assoc())
-                {
-             ?>
-            <tr>
-                <!--FETCHING DATA FROM EACH 
-                    ROW OF EVERY COLUMN-->
-                <td><?php echo $rows['id'];?></td>
-                <td><?php echo $rows['Fname'];?></td>
-                <td><?php echo $rows['Lname'];?></td>
-                <td><?php echo $rows['Email'];?></td>
-            </tr>
-            <?php
-                }
-             ?>
-        </table>
-    </section>
+<div class="form">
+<p><a href="index.php">Home</a> 
+| <a href="insert.php">Insert New Record</a> 
+| <a href="logout.php">Logout</a></p>
+<h2>View Records</h2>
+<table width="100%" border="1" style="border-collapse:collapse;">
+<thead>
+<tr>
+<th><strong>S.No</strong></th>
+<th><strong>Name</strong></th>
+<th><strong>Age</strong></th>
+<th><strong>Edit</strong></th>
+<th><strong>Delete</strong></th>
+</tr>
+</thead>
+<tbody>
+<?php
+$count=1;
+$sel_query="Select * from userinfo ORDER BY id desc;";
+$result = mysqli_query($con,$sel_query);
+while($row = mysqli_fetch_assoc($result)) { ?>
+<tr>
+
+  <td align="center"><?php echo  $row ['id']; ?></td>
+
+<td align="center">
+<a href="user.php?id=<?php echo $row["id"]; ?>"><?php echo $row["Fname"]; ?></a>
+</td>
+<td align="center"><?php echo $row["Lname"]; ?></td>
+<td align="center">
+<a href="edit.php?id=<?php echo $row["id"]; ?>">Edit</a>
+</td>
+<td align="center">
+<a href="delete.php?Del=<?php echo $row["id"]; ?>">Delete</a>
+</td>
+</tr>
+<?php $count++; } ?>
+</tbody>
+</table>
+</div>
 </body>
-  
 </html>
